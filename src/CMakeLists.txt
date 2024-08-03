@@ -3,6 +3,7 @@
 target_sources( ${PROJECT_NAME}
     PRIVATE
         external/miniaudio.h
+        external/miniaudio_init.h
         RegisterExtension.cpp
         AudioEffectControllerHaptics.cpp
         AudioEffectControllerHaptics.h

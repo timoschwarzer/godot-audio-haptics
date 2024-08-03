@@ -30956,9 +30956,13 @@ static ma_result ma_device_data_loop__pulse(ma_device* pDevice)
     the callbacks deal with it.
     */
     while (ma_device_get_state(pDevice) == ma_device_state_started) {
-        resultPA = ((ma_pa_mainloop_iterate_proc)pDevice->pContext->pulse.pa_mainloop_iterate)((ma_pa_mainloop*)pDevice->pulse.pMainLoop, 1, NULL);
+        resultPA = ((ma_pa_mainloop_iterate_proc)pDevice->pContext->pulse.pa_mainloop_iterate)((ma_pa_mainloop*)pDevice->pulse.pMainLoop, 0, NULL);
         if (resultPA < 0) {
             break;
+        }
+
+        if (((ma_pa_stream_readable_size_proc)pDevice->pContext->pulse.pa_stream_readable_size)((ma_pa_stream*)pDevice->pulse.pStreamPlayback) == 0) {
+            ma_sleep(5);
         }
     }
 

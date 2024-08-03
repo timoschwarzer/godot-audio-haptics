@@ -8,14 +8,8 @@
 #include <optional>
 #include "AudioEffectControllerHaptics.h"
 
-#if defined(__GNUC__) && !defined(__clang__)
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wduplicated-branches"
-#endif
-#include "external/miniaudio.h"
-#if defined(__GNUC__) && !defined(__clang__)
-    #pragma GCC diagnostic pop
-#endif
+#include <thread>
+#include "external/miniaudio_init.h"
 
 namespace hd_haptics {
     class AudioEffectControllerHapticsInstance : public godot::AudioEffectInstance {
@@ -35,9 +29,15 @@ namespace hd_haptics {
         std::optional<ma_device> m_device = std::nullopt;
         std::optional<ma_channel_converter> m_channel_converter = std::nullopt;
 
+        std::atomic<bool> m_stop_device_availability_check = false;
+        std::thread m_device_availability_check;
+        std::mutex m_initialization_mutex;
+
+        void try_initialize_miniaudio(const ma_device_id& device_id);
         void uninitialize_miniaudio();
 
         static void output_data_callback(ma_device* p_device, void* output, const void* input, ma_uint32 p_frame_count);
+        static void device_notification_callback(const ma_device_notification* notification);
         static void _bind_methods();
     };
 } // namespace hd_haptics
