@@ -31,7 +31,7 @@ project(godot-audio-haptics
         LANGUAGES
         CXX
         VERSION
-        1.0.0
+        1.1.0
 )
 
 # Create our library

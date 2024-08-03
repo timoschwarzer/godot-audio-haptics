@@ -121,7 +121,8 @@ namespace hd_haptics {
 
                         if (m_device.has_value()) {
                             // This memcmp is safe: https://github.com/mackron/miniaudio/issues/866#issuecomment-2207374206
-                            if (!device_id.has_value() || std::memcmp(&m_device->playback.id, &*device_id, 256) != 0) { // NOLINT(*-suspicious-memory-comparison)
+                            if (!device_id.has_value() ||
+                                std::memcmp(&m_device->playback.id, &*device_id, 256) != 0) { // NOLINT(*-suspicious-memory-comparison)
                                 uninitialize_miniaudio();
                                 WARN_PRINT("Audio Haptics device disconnected");
                             }
