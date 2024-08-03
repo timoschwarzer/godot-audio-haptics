@@ -33,7 +33,7 @@ namespace hd_haptics {
         if (!context.has_value()) {
             context = std::make_optional<ma_context>();
 
-            if (ma_context_init(backends.data(), backends.size(), nullptr, &*context) != MA_SUCCESS) {
+            if (ma_context_init(backends.data(), static_cast<ma_uint32>(backends.size()), nullptr, &*context) != MA_SUCCESS) {
                 ma_context_uninit(&*context);
                 context = std::nullopt;
                 ERR_FAIL_V_MSG(std::nullopt, "Failed to initialize context.");
