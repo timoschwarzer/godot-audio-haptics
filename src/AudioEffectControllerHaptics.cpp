@@ -8,7 +8,6 @@ namespace hd_haptics {
         godot::Ref<AudioEffectControllerHapticsInstance> instance;
         instance.instantiate();
         instance->base = godot::Ref(this);
-        WARN_PRINT("Instantiated AudioEffectAmplifyInstance");
         return instance;
     }
 

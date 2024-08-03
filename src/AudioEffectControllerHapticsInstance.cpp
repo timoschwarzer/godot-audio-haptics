@@ -31,8 +31,6 @@ namespace hd_haptics {
     constexpr int INPUT_CHANNELS = 2;
     constexpr int OUTPUT_CHANNELS = 4;
 
-    auto channel_weights = new float* [INPUT_CHANNELS] { new float[OUTPUT_CHANNELS]{0.f, 0.f, 1.f, 0.f}, new float[OUTPUT_CHANNELS]{0.f, 0.f, 0.f, 1.f}, };
-
     std::optional<ma_device_id> get_dualsense_audio_device_id() {
         ma_context context;
         ma_device_info* playback_device_infos;
@@ -96,7 +94,10 @@ namespace hd_haptics {
     AudioEffectControllerHapticsInstance::AudioEffectControllerHapticsInstance() {
         auto device_id = get_dualsense_audio_device_id();
 
-        ERR_FAIL_COND_MSG(!device_id.has_value(), "Did not find DualSense device");
+        if (!device_id.has_value()) {
+            WARN_PRINT("Did not find DualSense device");
+            return;
+        }
 
         auto sample_rate = static_cast<uint32_t>(godot::AudioServer::get_singleton()->get_mix_rate());
 
@@ -151,6 +152,10 @@ namespace hd_haptics {
     }
 
     void AudioEffectControllerHapticsInstance::_process(const void* p_src_buffer, godot::AudioFrame* p_dst_buffer, int32_t p_frame_count) {
+        if (!m_ring_buffer.has_value()) {
+            return;
+        }
+
         /* We need to write to the ring buffer. Need to do this in a loop. */
         int32_t frames_written = 0;
 
