@@ -1,0 +1,4 @@
+CMakeLists.txt.user
+.vscode/settings.json
+.idea
+/cmake-*
