@@ -2,11 +2,6 @@
     #define MA_DEBUG_OUTPUT
 #endif
 
-#define MA_ENABLE_ONLY_SPECIFIC_BACKENDS
-#define MA_ENABLE_PULSEAUDIO
-#define MA_ENABLE_WASAPI
-#define MA_ENABLE_COREAUDIO
-
 #if defined(__GNUC__) && !defined(__clang__)
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wduplicated-branches"
