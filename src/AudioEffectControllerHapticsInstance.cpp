@@ -228,7 +228,8 @@ namespace hd_haptics {
         device_config.playback.pDeviceID = &device_id;
 
 #if defined(MA_HAS_PULSEAUDIO)
-        device_config.pulse.pChannelMap = MA_PA_CHANNEL_MAP_ALSA;
+        device_config.pulse.channelMap = MA_PA_CHANNEL_MAP_ALSA;
+        device_config.pulse.blockingMainLoop = MA_FALSE;
 #endif
 
         m_device = std::make_optional<ma_device>();
